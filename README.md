@@ -1,2 +1,13 @@
-# HW-22_1
-Home Work Python 22_1
+# HW-Django
+Home Work Python Django
+
+
+## Запуск проекта
+```
+# Подготовка
+pip install poetry
+poetry install
+
+# Запуск сервера
+poetry run ./manage.py runserver
+```

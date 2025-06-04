@@ -5,7 +5,7 @@ from .models import Product
 
 
 def home(reqiest):
-    return render(reqiest, 'home.html')
+    return render(reqiest, 'index.html')
 
 
 def contacts(reqiest):

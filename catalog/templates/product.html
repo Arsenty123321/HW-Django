@@ -22,8 +22,9 @@
                              alt="{{ product.name }}">
                     </div>
                     <p>{{ product.description|truncatechars:100 }}</p>
+                    <a href="{% url 'catalog:product_detail' product.id %}">
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary">{{ product.price }} руб.
-                    </button>
+                    </button></a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,39 @@
+<!-- index.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Index -->
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-1 g-4">
+        <div class="col">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Портал поиска вашего приключения</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center mb-5">
+                        <img src="/media/product_images/travel_intro.jpeg" class="img-fluid"
+                             alt="Image">
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-1 g-4 ">
+                        <div class="col">
+                            <div class="d-flex justify-content-center align-items-center mb-5">
+                                <a href="{% url 'catalog:product_list' %}">
+                                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Начать поиск
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Index - конец-->
+
+{% endblock %}

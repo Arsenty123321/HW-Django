@@ -1,0 +1,36 @@
+<!-- product.html -->
+
+{% extends 'base.html' %}
+
+{% block title %} Travel Shop : Каталог {% endblock %}
+
+{% block content %}
+
+<!--Список продуктов-->
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <img src="/media/{{ product.image|default:'/product_images/no_image.png'}}" class="img-fluid"
+                             style="height: 250px;"
+                             alt="{{ product.name }}">
+                    </div>
+                    <p>{{ product.description|truncatechars:100 }}</p>
+                    <a href="{% url 'catalog:product_detail' product.id %}">
+                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">{{ product.price }} руб.
+                    </button></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!--Список продуктов - конец-->
+
+{% endblock %}

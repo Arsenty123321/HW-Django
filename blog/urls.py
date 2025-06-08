@@ -1,9 +1,9 @@
 from django.urls import path
 from blog.apps import BlogConfig
-# from .views import ProductListView, ProductDetailView, HomeTemplateView, ContactsTemplateView
+from blog.views import BlogListView
 
 app_name = BlogConfig.name
 
 urlpatterns = [
-
+    path('blogs_list/', BlogListView.as_view(), name='blogs_list'),
 ]

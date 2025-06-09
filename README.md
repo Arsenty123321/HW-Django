@@ -44,7 +44,12 @@ poetry run ./manage.py createsuperuser
 Внимание! При выполнении команды все имеющиеся данные моделей будут удалены!
 ```
 # Удаление данных и загрузка моделей из фикстуры с тестовыми данными
+# Для приложения catalog
 poetry run ./manage.py add_catalog_testdata
+
+# Для приложения blog
+poetry run ./manage.py add_blog_testdata
+
 ```
 
 ## Запуск проекта

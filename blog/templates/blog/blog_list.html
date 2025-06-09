@@ -10,6 +10,7 @@
         <br>
     </div>
     <div class="row mt-3">
+
         {% for blog in blogs %}
         <div class="col-sm-4 mb-4">
             <div class="card text-center" style="height: 100%;">
@@ -22,9 +23,9 @@
                     <div class="mt-auto d-flex justify-content-between">
                         <div>
                             <a class="btn btn-primary me-2" href="{% url 'blog:blog_detail' blog.pk %}" role="button">Посмотреть</a>
-                            <a class="btn btn-primary" href="#" role="button">Редактировать</a>
+                            <a class="btn btn-primary" href="{% url 'blog:blog_update' blog.pk %}" role="button">Редактировать</a>
                         </div>
-                        <a class="btn btn-danger" href="#" role="button">Удалить</a>
+                        <a class="btn btn-danger" href="{% url 'blog:blog_delete' blog.pk %}" role="button">Удалить</a>
                     </div>
                 </div>
             </div>
@@ -35,6 +36,11 @@
             <p>Нет опубликованных блогов.</p>
         </div>
         {% endfor %}
+
+    </div>
+    <div class="text-center">
+        <a class="btn btn-primary btn-lg shadow" href="{% url 'blog:blog_create' %}" role="button">Добавить пост</a>
+        <br>
     </div>
 </div>
 

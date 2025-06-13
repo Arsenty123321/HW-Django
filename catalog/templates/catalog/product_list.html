@@ -22,13 +22,36 @@
                              alt="{{ product.name }}">
                     </div>
                     <p>{{ product.description|truncatechars:100 }}</p>
-                    <a href="{% url 'catalog:product_detail' product.id %}">
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">{{ product.price }} руб.
-                    </button></a>
+
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="col">
+                            <a href="{% url 'catalog:product_detail' product.id %}">
+                                <button type="button" class="btn btn-lg btn-block btn-outline-primary">
+                                    {{ product.price }} руб.
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <div class="mt-auto d-flex justify-content-end">
+                                <div>
+                                    <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk %}"
+                                       role="button">Редактировать</a>
+                                </div>
+                                <a class="btn btn-danger" href="{% url 'catalog:product_delete' product.pk %}"
+                                   role="button">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="text-center">
+        <a class="btn btn-primary btn-lg shadow" href="{% url 'catalog:product_create' %}" role="button">Добавить
+            продукт</a>
+        <br>
     </div>
 </div>
 <!--Список продуктов - конец-->

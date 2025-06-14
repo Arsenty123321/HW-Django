@@ -31,6 +31,7 @@
                                 </button>
                             </a>
                         </div>
+                        {% if user.is_authenticated %}
                         <div class="col">
                             <div class="mt-auto d-flex justify-content-end">
                                 <div>
@@ -41,6 +42,7 @@
                                    role="button">Удалить</a>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -48,11 +50,13 @@
         </div>
         {% endfor %}
     </div>
+    {% if user.is_authenticated %}
     <div class="text-center">
         <a class="btn btn-primary btn-lg shadow" href="{% url 'catalog:product_create' %}" role="button">Добавить
             продукт</a>
         <br>
     </div>
+    {% endif %}
 </div>
 <!--Список продуктов - конец-->
 

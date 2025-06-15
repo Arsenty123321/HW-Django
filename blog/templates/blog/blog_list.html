@@ -20,13 +20,19 @@
                     <h5 class="card-header">{{ blog.title }}</h5>
                     <p class="card-text">{{ blog.content|truncatechars:200 }}</p>
                     <p class="card-text">Количество просмотров: {{ blog.views_count }}</p>
+
                     <div class="mt-auto d-flex justify-content-between">
                         <div>
                             <a class="btn btn-primary me-2" href="{% url 'blog:blog_detail' blog.pk %}" role="button">Посмотреть</a>
+                            {% if user.is_authenticated %}
                             <a class="btn btn-primary" href="{% url 'blog:blog_update' blog.pk %}" role="button">Редактировать</a>
+                            {% endif %}
                         </div>
+                        {% if user.is_authenticated %}
                         <a class="btn btn-danger" href="{% url 'blog:blog_delete' blog.pk %}" role="button">Удалить</a>
+                        {% endif %}
                     </div>
+
                 </div>
             </div>
         </div>
@@ -38,10 +44,14 @@
         {% endfor %}
 
     </div>
+
+    {% if user.is_authenticated %}
     <div class="text-center">
         <a class="btn btn-primary btn-lg shadow" href="{% url 'blog:blog_create' %}" role="button">Добавить пост</a>
         <br>
     </div>
+    {% endif %}
+
 </div>
 
 {% endblock %}

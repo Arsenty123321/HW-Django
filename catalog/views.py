@@ -37,7 +37,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("catalog:product_list")
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        user = self.request.user
+
+        if user.has_perm('catalog.can_unpublish_product'):
+            return HttpResponseForbidden("У модераторов нет прав для создания продукта.")
+
+        form.instance.owner = user
         return super().form_valid(form)
 
 
@@ -54,7 +59,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user == self.object.owner:
             return ProductForm
-        if user.has_perm("can_unpublish_product"):
+        if user.has_perm("catalog.can_unpublish_product"):
             return ProductModeratorForm
         raise PermissionDenied
 
@@ -66,6 +71,6 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         user = self.request.user
-        if user != self.object.owner or not user.has_perm("delete"):
-            return HttpResponseForbidden("У вас нет прав для удаления продукта.")
-        return super().form_valid(form)
+        if user == self.object.owner or user.has_perm('catalog.can_unpublish_product'):
+            return super().form_valid(form)
+        return HttpResponseForbidden("У вас нет прав для удаления продукта.")

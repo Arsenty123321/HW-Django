@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
-from .forms import ProductForm
+from .forms import ProductForm, ProductModeratorForm
 from .models import Product
 
 
@@ -48,8 +50,22 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse("catalog:product_detail", args=[self.kwargs.get("pk")])
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm("can_unpublish_product"):
+            return ProductModeratorForm
+        raise PermissionDenied
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     context_object_name = "product"
     success_url = reverse_lazy("catalog:product_list")
+
+    def form_valid(self, form):
+        user = self.request.user
+        if user != self.object.owner or not user.has_perm("delete"):
+            return HttpResponseForbidden("У вас нет прав для удаления продукта.")
+        return super().form_valid(form)

@@ -42,7 +42,7 @@
                                 <div>
                                     <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk %}"
                                        role="button">
-                                        {% if perms.catalog.can_unpublish_product %}
+                                        {% if perms.catalog.can_unpublish_product and not perms.is_superuser %}
                                         Публикация
                                         {% else %}
                                         Редактировать
@@ -78,7 +78,7 @@
 
         {% endfor %}
     </div>
-    {% if user.is_authenticated and not perms.catalog.can_unpublish_product %}
+    {% if user.is_authenticated and not perms.catalog.can_unpublish_product or perms.is_superuser %}
     <div class="text-center">
         <a class="btn btn-primary btn-lg shadow" href="{% url 'catalog:product_create' %}" role="button">Добавить
             продукт</a>

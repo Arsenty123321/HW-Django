@@ -39,7 +39,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
 
-        if user.has_perm('catalog.can_unpublish_product'):
+        if user.has_perm('catalog.can_unpublish_product') and not user.has_perm('is_superuser'):
             return HttpResponseForbidden("У модераторов нет прав для создания продукта.")
 
         form.instance.owner = user

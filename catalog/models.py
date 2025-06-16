@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя_категории')
@@ -23,6 +25,20 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    STATUS_CHOICES = [
+        ('unpublished', 'Не опубликован'),
+        ('published', 'Опубликован'),
+    ]
+
+    status = models.CharField(
+        max_length=15,
+        choices=STATUS_CHOICES,
+        default='unpublished',
+        verbose_name='Статус публикации',
+    )
+
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
     def __str__(self):
         return f'{self.name} {self.category}'
 
@@ -30,3 +46,6 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name']
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+        ]

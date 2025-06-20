@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView,
 
 from .forms import ProductForm, ProductModeratorForm
 from .models import Product
+from .services import get_products_from_cache
 
 
 class HomeTemplateView(TemplateView):
@@ -23,7 +24,7 @@ class ProductListView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = get_products_from_cache()
         return queryset.order_by('id')
 
 

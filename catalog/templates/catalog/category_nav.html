@@ -1,0 +1,28 @@
+<!-- category_nav.html -->
+
+<!--Категории панель навигации-->
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4 align-items-center justify-content-center">
+        <nav class="navbar navbar-light  navbar-expand-lg justify-content-center">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <p class="nav-link">Категории: </p>
+                </li>
+                {% for category in categories %}
+                <li class="nav-item">
+                    <a class="nav-link {% if current_category_id == category.id %} disabled {% endif %}"
+                       href="{% url 'catalog:category_list' category.id %}">{{ category.name }}</a>
+                </li>
+                {% empty %}
+                <p>Нет категорий</p>
+                {% endfor %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalog:product_list' %}">Все категории</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!--Категории панель навигации - конец-->

@@ -2,10 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
 from .forms import ProductForm, ProductModeratorForm
-from .models import Product
+from .models import Product, Category
+from .services import get_products_from_cache, get_categories_from_cache, get_products_from_category
 
 
 class HomeTemplateView(TemplateView):
@@ -16,15 +19,34 @@ class ContactsTemplateView(TemplateView):
     template_name = "catalog/contacts.html"
 
 
+class CategoryListView(ListView):
+    model = Category
+    context_object_name = 'categories'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get("id")
+        context['current_category_id'] = category_id
+        context['products'] = get_products_from_category(category_id)
+        return context
+
+
 class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = get_products_from_cache()
         return queryset.order_by('id')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # categories = get_categories_from_cache()
+        context['categories'] = get_categories_from_cache()
+        return context
 
+
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     context_object_name = 'product'
